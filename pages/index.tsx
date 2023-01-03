@@ -8,13 +8,7 @@ import styles from '../styles/Home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home({
-  card,
-  day,
-}: {
-  card: Content.CardDocumentData;
-  day: Content.DaysDocumentData;
-}) {
+export default function Home({ card, day }: { card: Content.CardDocumentData; day: number }) {
   return (
     <>
       <Head>
@@ -26,10 +20,10 @@ export default function Home({
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            Til hamingju með afmælið! <br /> Hér munu birtast handahófskendar myndir reglulega
-            þannig þú getir alltaf kíkt.
+            Til hamingju með afmælið &#128155; <br /> Hér munu birtast handahófskendar myndir
+            reglulega þannig þú getir alltaf kíkt (og gleymir mér ekki)
           </p>
-          <p>Dagar þangað til Axel kemur: {day.days}</p>
+          {day > 0 && <p>Dagar þangað til Axel kemur: {day}</p>}
         </div>
 
         <div className={styles.center}>
@@ -65,6 +59,6 @@ export async function getStaticProps() {
 
   // Pass the homepage as prop to our page.
   return {
-    props: { card, day },
+    props: { card, day: day.days ?? 0 },
   };
 }

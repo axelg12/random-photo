@@ -1,11 +1,11 @@
 {
   "uid": {
     "__TYPE__": "UIDContent",
-    "value": "tomorrow"
+    "value": "scientific"
   },
   "days": {
     "__TYPE__": "FieldContent",
-    "value": "57",
-    "type": "Number"
+    "type": "Date",
+    "value": "2013-04-30"
   }
 }

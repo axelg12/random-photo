@@ -57,14 +57,14 @@ interface DaysDocumentData {
     /**
      * days field in *days*
      *
-     * - **Field Type**: Number
+     * - **Field Type**: Date
      * - **Placeholder**: *None*
      * - **API ID Path**: days.days
      * - **Tab**: Main
-     * - **Documentation**: https://prismic.io/docs/core-concepts/number
+     * - **Documentation**: https://prismic.io/docs/core-concepts/date
      *
      */
-    days: prismicT.NumberField;
+    days: prismicT.DateField;
 }
 /**
  * days document from Prismic

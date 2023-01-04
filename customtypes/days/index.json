@@ -13,7 +13,7 @@
         }
       },
       "days": {
-        "type": "Number",
+        "type": "Date",
         "config": {
           "label": "days",
           "placeholder": ""

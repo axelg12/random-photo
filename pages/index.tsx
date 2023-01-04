@@ -23,7 +23,7 @@ export default function Home({ card, day }: { card: Content.CardDocumentData; da
             Til hamingju með afmælið &#128155; <br /> Hér munu birtast handahófskendar myndir
             reglulega þannig þú getir alltaf kíkt (og gleymir mér ekki)
           </p>
-          {day > 0 && <p>Dagar þangað til Axel kemur: {day}</p>}
+          {<p>Dagar þangað til Axel kemur: {day}</p>}
         </div>
 
         <div className={styles.center}>
@@ -53,12 +53,16 @@ export async function getStaticProps() {
 
   // Page document for our homepage from the CMS.
   const cards = await client.getAllByType('card');
-  const day = await (await client.getSingle('days')).data;
+  const day = await (await client.getSingle('days')).data.days;
 
   const card = cards[0].data;
 
+  const now = new Date();
+  const dateDiff = new Date(day ?? '').getTime() - now.getTime();
+  const dateDiffDays = Math.round(dateDiff / (1000 * 3600 * 24));
+
   // Pass the homepage as prop to our page.
   return {
-    props: { card, day: day.days ?? 0 },
+    props: { card, day: dateDiffDays },
   };
 }

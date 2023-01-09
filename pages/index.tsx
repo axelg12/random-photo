@@ -20,8 +20,13 @@ export default function Home({ card, day }: { card: Content.CardDocumentData; da
       <main className={styles.main}>
         <div className={styles.description}>
           <p>
-            Til hamingju með afmælið &#128155; <br /> Hér munu birtast handahófskendar myndir
-            reglulega þannig þú getir alltaf kíkt (og gleymir mér ekki)
+            <div>Elsku Margrét,</div>
+            <div>Til hamingju með afmælið &#128155; Ég vildi óska þess ég væri hjá þér</div>
+            <div>
+              <br />
+              Hér munu birtast handahófskendar myndir daglega þannig þú getir alltaf kíkt (og
+              gleymir mér ekki)
+            </div>
           </p>
           {<p>Dagar þangað til Axel kemur: {day}</p>}
         </div>
@@ -55,7 +60,11 @@ export async function getStaticProps() {
   const cards = await client.getAllByType('card');
   const day = await (await client.getSingle('days')).data.days;
 
-  const card = cards[0].data;
+  const randomPhotoPerDay = () => {
+    const date = new Date();
+    return (date.getFullYear() * date.getDate() * (date.getMonth() + 1)) % cards.length;
+  };
+  const card = cards[randomPhotoPerDay()].data;
 
   const now = new Date();
   const dateDiff = new Date(day ?? '').getTime() - now.getTime();

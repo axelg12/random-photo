@@ -131,13 +131,16 @@
 
 /* Mobile */
 @media (max-width: 700px) {
+  .main {
+    padding: 0rem;
+  }
+
   .content {
     padding: 4rem;
   }
 
   .grid {
     grid-template-columns: 1fr;
-    margin-bottom: 120px;
     max-width: 320px;
     text-align: center;
   }
@@ -161,6 +164,8 @@
 
   .description {
     font-size: 0.8rem;
+    padding: 1rem;
+    flex-direction: column-reverse;
   }
 
   .description a {
@@ -171,33 +176,30 @@
   .description div {
     display: flex;
     justify-content: center;
-    position: fixed;
     width: 100%;
   }
 
   .description p {
     align-items: center;
     inset: 0 0 auto;
-    padding: 2rem 1rem 1.4rem;
+    padding: 2rem 0rem;
     border-radius: 0;
+    text-align: center;
     border: none;
     border-bottom: 1px solid rgba(var(--callout-border-rgb), 0.25);
-    background: linear-gradient(to bottom,
-        rgba(var(--background-start-rgb), 1),
-        rgba(var(--callout-rgb), 0.5));
-    background-clip: padding-box;
-    backdrop-filter: blur(24px);
+    margin-left: 0;
+    align-items: flex-start;
   }
 
   .description div {
-    align-items: flex-end;
-    pointer-events: none;
-    inset: auto 0 0;
-    padding: 2rem;
-    height: 200px;
-    background: linear-gradient(to bottom,
-        transparent 0%,
-        rgb(var(--background-end-rgb)) 40%);
-    z-index: 1;
+    padding: 1rem 0rem;
+    inset: 0 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .main audio {
+    text-align: center;
   }
 }

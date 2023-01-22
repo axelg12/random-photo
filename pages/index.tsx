@@ -1,4 +1,4 @@
-import { PrismicText, PrismicRichText } from '@prismicio/react';
+import { useState } from 'react';
 import type { Content } from '@prismicio/client';
 import { createClient } from '../prismicio';
 import Head from 'next/head';
@@ -8,7 +8,17 @@ import styles from '../styles/Home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export default function Home({ card, day }: { card: Content.CardDocumentData; day: number }) {
+export default function Home({ cards, day }: { cards: Content.CardDocumentData[]; day: number }) {
+  const [photoIndex, setPhotoIndex] = useState(0);
+
+  const newPhoto = () => {
+    if (photoIndex == 2) {
+      setPhotoIndex(0);
+    } else {
+      setPhotoIndex(photoIndex + 1);
+    }
+  };
+
   return (
     <>
       <Head>
@@ -42,19 +52,20 @@ export default function Home({ card, day }: { card: Content.CardDocumentData; da
             fill
             priority
             alt="mynd af Axel"
-            src={card.image.url as string}
+            src={cards[photoIndex].image.url as string}
           />
         </div>
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2 className={inter.className}>{card.title}</h2>
-            <p className={inter.className}>{card.details}</p>
+            <h2 className={inter.className}>{cards[photoIndex].title}</h2>
+            <p className={inter.className}>{cards[photoIndex].details}</p>
           </div>
         </div>
         <audio controls autoPlay>
           <source src="/selfcontrol.mp3" type="audio/mpeg" />
         </audio>
+        <div onClick={newPhoto}>Redo</div>
       </main>
     </>
   );
@@ -87,13 +98,23 @@ export async function getStaticProps() {
     const date = new Date();
     return (date.getFullYear() * date.getDate() * (date.getMonth() + 1)) % cards.length;
   };
-  const card = cards[randomPhotoPerDay()].data;
+
+  const getRandomCards = (randomNum: number) => {
+    if (randomNum >= cards.length - 2) {
+      return [cards[randomNum].data, cards[0].data, cards[1].data];
+    } else {
+      return [cards[randomNum].data, cards[randomNum + 1].data, cards[randomNum + 2].data];
+    }
+  };
+
+  const randomNum = randomPhotoPerDay();
+  const pickedCards = getRandomCards(randomNum);
 
   const dateDiff = new Date(day ?? '').getTime() - now.getTime();
   const dateDiffDays = Math.round(dateDiff / (1000 * 3600 * 24));
 
   // Pass the homepage as prop to our page.
   return {
-    props: { card, day: dateDiffDays },
+    props: { cards: pickedCards, day: dateDiffDays },
   };
 }

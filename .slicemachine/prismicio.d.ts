@@ -76,12 +76,24 @@ interface DaysDocumentData {
  * @typeParam Lang - Language API ID of the document.
  */
 export type DaysDocument<Lang extends string = string> = prismicT.PrismicDocumentWithUID<Simplify<DaysDocumentData>, "days", Lang>;
-export type AllDocumentTypes = CardDocument | DaysDocument;
+/** Content for test documents */
+type TestDocumentData = Record<string, never>;
+/**
+ * test document from Prismic
+ *
+ * - **API ID**: `test`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/core-concepts/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type TestDocument<Lang extends string = string> = prismicT.PrismicDocumentWithoutUID<Simplify<TestDocumentData>, "test", Lang>;
+export type AllDocumentTypes = CardDocument | DaysDocument | TestDocument;
 declare module "@prismicio/client" {
     interface CreateClient {
         (repositoryNameOrEndpoint: string, options?: prismic.ClientConfig): prismic.Client<AllDocumentTypes>;
     }
     namespace Content {
-        export type { CardDocumentData, CardDocument, DaysDocumentData, DaysDocument, AllDocumentTypes };
+        export type { CardDocumentData, CardDocument, DaysDocumentData, DaysDocument, TestDocumentData, TestDocument, AllDocumentTypes };
     }
 }

@@ -19,15 +19,20 @@ export default function Home({ card, day }: { card: Content.CardDocumentData; da
       </Head>
       <main className={styles.main}>
         <div className={styles.description}>
-          <p>
+          <div>
             <div>Elsku Margrét,</div>
-            <div>Til hamingju með afmælið &#128155; Ég vildi óska þess ég væri hjá þér</div>
             <div>
               <br />
-              Hér munu birtast handahófskendar myndir daglega þannig þú getir alltaf kíkt (og
-              gleymir mér ekki)
+              Til hamingju með afmælið &#128155; Ég vildi óska þess ég væri hjá þér í dag sem og
+              aðra daga. Nú styttist í að ég komi en þú getur alltaf kíkt hingað inn til að sjá hvað
+              það er langt þangað til (og núna þarftu ekki countdown app)
             </div>
-          </p>
+            <div>
+              <br />
+              Hér munu birtast mismunandi handahófskendar myndir daglega þannig þú getir alltaf kíkt
+              (og gleymir mér ekki þangað til ég kem)
+            </div>
+          </div>
           {<p>Dagar þangað til Axel kemur: {day}</p>}
         </div>
 
@@ -47,17 +52,35 @@ export default function Home({ card, day }: { card: Content.CardDocumentData; da
             <p className={inter.className}>{card.details}</p>
           </div>
         </div>
+        <audio controls autoPlay>
+          <source src="/selfcontrol.mp3" type="audio/mpeg" />
+        </audio>
       </main>
     </>
   );
 }
 
+const isBirthday = (someDate: Date) => {
+  const bday = new Date('2023-02-10');
+  return someDate.getDate() == bday.getDate() && someDate.getMonth() == bday.getMonth();
+};
+
 export async function getStaticProps() {
   // Client used to fetch CMS content.
   const client = createClient();
+  const now = new Date();
 
-  // Page document for our homepage from the CMS.
-  const cards = await client.getAllByType('card');
+  const useSinglePhoto = isBirthday(now);
+
+  let cards: Content.CardDocument<string>[] = [];
+  if (useSinglePhoto) {
+    // display specific photo on birthday
+    cards = await client.getAllByTag('birthday');
+  } else {
+    // fetch all the photos
+    cards = await client.getAllByType('card');
+  }
+  // fetch the countdown date
   const day = await (await client.getSingle('days')).data.days;
 
   const randomPhotoPerDay = () => {
@@ -66,7 +89,6 @@ export async function getStaticProps() {
   };
   const card = cards[randomPhotoPerDay()].data;
 
-  const now = new Date();
   const dateDiff = new Date(day ?? '').getTime() - now.getTime();
   const dateDiffDays = Math.round(dateDiff / (1000 * 3600 * 24));
 

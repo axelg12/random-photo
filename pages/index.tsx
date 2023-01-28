@@ -4,6 +4,8 @@ import { createClient } from '../prismicio';
 import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/Home.module.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -58,14 +60,18 @@ export default function Home({ cards, day }: { cards: Content.CardDocumentData[]
 
         <div className={styles.grid}>
           <div className={styles.card}>
-            <h2 className={inter.className}>{cards[photoIndex].title}</h2>
+            <h2 className={inter.className}>
+              {cards[photoIndex].title}
+              <button onClick={newPhoto} className={styles.button}>
+                <FontAwesomeIcon icon={faRedo} style={{ fontSize: 20 }} />
+              </button>
+            </h2>
             <p className={inter.className}>{cards[photoIndex].details}</p>
           </div>
         </div>
         <audio controls autoPlay>
           <source src="/selfcontrol.mp3" type="audio/mpeg" />
         </audio>
-        <div onClick={newPhoto}>Redo</div>
       </main>
     </>
   );

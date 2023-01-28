@@ -83,6 +83,8 @@ export async function getStaticProps() {
 
   const useSinglePhoto = isBirthday(now);
 
+  console.log('use', useSinglePhoto, now);
+
   let cards: Content.CardDocument<string>[] = [];
   if (useSinglePhoto) {
     // display specific photo on birthday
@@ -95,8 +97,7 @@ export async function getStaticProps() {
   const day = await (await client.getSingle('days')).data.days;
 
   const randomPhotoPerDay = () => {
-    const date = new Date();
-    return (date.getFullYear() * date.getDate() * (date.getMonth() + 1)) % cards.length;
+    return (now.getFullYear() * now.getDate() * (now.getMonth() + 1)) % cards.length;
   };
 
   const getRandomCards = (randomNum: number) => {

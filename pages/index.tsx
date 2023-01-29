@@ -82,7 +82,7 @@ const isBirthday = (someDate: Date) => {
   return someDate.getDate() == bday.getDate() && someDate.getMonth() == bday.getMonth();
 };
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // Client used to fetch CMS content.
   const client = createClient();
   const now = new Date();

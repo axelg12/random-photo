@@ -8,6 +8,7 @@ const nextConfig = {
         hostname: 'images.prismic.io',
       },
     ],
+    minimumCacheTTL: 31536000,
   },
 };
 

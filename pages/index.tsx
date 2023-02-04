@@ -89,8 +89,6 @@ export async function getServerSideProps() {
 
   const useSinglePhoto = isBirthday(now);
 
-  console.log('use', useSinglePhoto, now);
-
   let cards: Content.CardDocument<string>[] = [];
   if (useSinglePhoto) {
     // display specific photo on birthday
@@ -107,6 +105,15 @@ export async function getServerSideProps() {
   };
 
   const getRandomCards = (randomNum: number) => {
+    if (useSinglePhoto) {
+      cards.sort((a, b) => {
+        if (a.id == 'Y81UGREAACMArNUg') {
+          return 1;
+        }
+        return 0;
+      });
+      return [cards[0].data, cards[1].data, cards[2].data];
+    }
     if (randomNum >= cards.length - 2) {
       return [cards[randomNum].data, cards[0].data, cards[1].data];
     } else {
@@ -115,7 +122,7 @@ export async function getServerSideProps() {
   };
 
   const randomNum = randomPhotoPerDay();
-  const pickedCards = getRandomCards(randomNum);
+  let pickedCards = getRandomCards(randomNum);
 
   const dateDiff = new Date(day ?? '').getTime() - now.getTime();
   const dateDiffDays = Math.round(dateDiff / (1000 * 3600 * 24));
